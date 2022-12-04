@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">endpoint</th>
+            <th scope="col">user</th>
+            <th scope="col">response_code</th>
+            <th scope="col">method</th>
+            <th scope="col">remote_address</th>
+            <th scope="col">date</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for log in logs %}
+        <tr>
+            <th scope="row">{{log.endpoint}}</th>
+            <td>{{log.user}}</td>
+            <td>{{log.response_code}}</td>
+            <td>{{log.method}}</td>
+            <td>{{log.remote_address}}</td>
+            <td>{{log.date}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

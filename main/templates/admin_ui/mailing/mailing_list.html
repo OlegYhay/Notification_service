@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <a class="btn btn-primary" href="{% url 'mailings_create_admin' %}">Добавить</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Описание</th>
+            <th scope="col">Дата рассылки</th>
+            <th scope="col">Дата завершения рассылки</th>
+            <th scope="col">Теги</th>
+            <th scope="col">Операторы</th>
+            <th>Редактировать</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for mailing in mailings %}
+        <tr>
+            <th scope="row">{{mailing.id}}</th>
+            <td>{{mailing.description}}</td>
+            <td>{{mailing.date_dispatch}}</td>
+            <td>{{mailing.date_stop}}</td>
+            <td>
+                {% for tag in mailing.tags.all %}
+                <p>{{tag}}</p>
+                {% endfor %}
+            </td>
+            <td>
+                {% for mobile_operator in mailing.mobile_operator.all %}
+                <p>{{mobile_operator}}</p>
+                {% endfor %}
+            </td>
+
+            <td>
+                <a class="btn btn-warning" href="{% url 'mailings_update_admin' pk=mailing.pk %}">Редактировать</a>
+                <a class="btn btn-danger" href="{% url 'mailings_delete_admin' pk=mailing.pk %}">Удалить</a>
+                <a class="btn btn-primary" href="{% url 'mailings_statistic' pk=mailing.pk %}">Статистика</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

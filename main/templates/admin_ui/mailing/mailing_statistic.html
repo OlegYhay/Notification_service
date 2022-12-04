@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h3 class="text-center">Статистика рассылки</h3>
+<div class="container">
+    <p class="form-control">Наименование:{{mailing.description}}</p>
+    <p class="form-control">Дата начала:{{mailing.date_dispatch}}</p>
+    <p class="form-control">Дата завершения:{{mailing.date_stop}}</p>
+    <p>Информация по сообщениям</p>
+    {% for i in messages %}
+    <p class="form-control">{{i.status}}:{{i.count}}</p>
+    {% endfor %}
+</div>
+{% endblock content %}

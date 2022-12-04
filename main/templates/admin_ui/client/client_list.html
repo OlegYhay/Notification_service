@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+<a class="btn btn-primary" href="{% url 'client_create_admin' %}">Добавить</a>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">id</th>
+        <th scope="col">ФИО</th>
+        <th scope="col">Номер телефона</th>
+        <th scope="col">Мобильный оператор</th>
+        <th scope="col">Теги</th>
+        <th>Редактировать</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for client in clients %}
+    <tr>
+        <th scope="row">{{client.id}}</th>
+        <td>{{client.name}}</td>
+        <td>{{client.phone_number}}</td>
+        <td>{{client.mobile_operator}}</td>
+        <td>
+            {% for tag in client.tags.all %}
+            <p>{{tag}}</p>
+            {% endfor %}
+        </td>
+
+
+        <td>
+            <a class="btn btn-warning" href="{% url 'client_update_admin' pk=client.id %}">Редактировать</a>
+            <a class="btn btn-danger" href="{% url 'client_delete_admin' pk=client.id %}">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock content %}

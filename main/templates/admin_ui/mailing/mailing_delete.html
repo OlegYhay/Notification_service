@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h3 class="text-center">Удаление  рассылки</h3>
+<div class="container">
+<form method="post">
+  {% csrf_token %}
+  {{form|crispy}}
+  <h4>Вы действительно хотите удалить?</h4>
+  <br/>
+  <button class="btn btn-danger" type="submit">Удалить</button>
+  <a href="{% url 'mailings_list' %}" class="btn btn-primary"> Отмена</a>
+</form>
+</div>
+{% endblock content %}

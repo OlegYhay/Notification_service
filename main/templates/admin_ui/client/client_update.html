@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h3 class="text-center">Редактирование client</h3>
+<div class="container">
+<form method="post">
+    {% csrf_token %}
+    {{form|crispy}}
+    <br/>
+    <button class="btn btn-primary" type="submit">Редактировать</button>
+    <a href="{% url 'client_list' %}" class="btn btn-primary"> Отмена</a>
+</form>
+</div>
+{% endblock content %}
