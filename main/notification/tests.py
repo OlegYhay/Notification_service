@@ -48,11 +48,6 @@ class TestCRUDClient(APITestCase):
         self.assertNotEqual(Client.objects.count(), 1)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_create_client_without_login(self):
-        url = reverse('client_create')
-        response = self.client.post(url, self.client1, format='json')
-        self.assertNotEqual(Client.objects.count(), 1)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     # test correct update client
     def test_update_client(self):
@@ -70,19 +65,6 @@ class TestCRUDClient(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Client.objects.get(id=1).name, 'Edit user1')
 
-    def test_update_client_without_login(self):
-        new_user = Client(name=self.client1['name'],
-                          phone_number=self.client1['phone_number'], )
-        new_user.save()
-        data = {
-            'name': 'Edit user1',
-            'phone_number': '+79603875356',
-            'tags': [1, 2],
-        }
-        url = reverse('client_update', kwargs={'pk': 1})
-        response = self.client.put(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-
     # test correct destroy client
     def test_destroy_client(self):
         new_user = Client(name=self.client1['name'],
@@ -93,15 +75,6 @@ class TestCRUDClient(APITestCase):
         response = self.client.delete(url, data={}, format='json')
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Client.objects.count(), 0)
-
-    def test_destroy_client_without_login(self):
-        new_user = Client(name=self.client1['name'],
-                          phone_number=self.client1['phone_number'], )
-        new_user.save()
-        url = reverse('client_destroy', kwargs={'pk': 1})
-        response = self.client.delete(url, data={}, format='json')
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-        self.assertEqual(Client.objects.count(), 1)
 
 
 class TestCRUDMailing(APITestCase):
@@ -132,39 +105,4 @@ class TestCRUDMailing(APITestCase):
         self.assertEqual(Mailing.objects.count(), 1)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    def test_create_mailing_without_login(self):
-        url = reverse('mailing-list')
-        response = self.client.post(url, self.mailing, format='json')
-        self.assertEqual(Mailing.objects.count(), 0)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_update_mailing(self):
-        url = reverse('mailing-detail', kwargs={'pk': 1})
-        self.client.login(**self.user)
-        Mailing(description=self.mailing['description'],
-                date_dispatch="2022-12-01T15:38:00+03:00",
-                date_stop="2022-12-01T15:38:00+03:00",
-                text='Тестовая рассылка', ).save()
-
-        date = {
-            'description': 'Edit рассылка',
-            'date_dispatch': "2022-12-01T15:38:00+03:00",
-            'date_stop': "2022-12-01T15:38:00+03:00",
-            'text': 'Тестовая рассылка2',
-            'tags': [1],
-            'mobile_operator': ["+796"],
-        }
-        response = self.client.put(url, date, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(Mailing.objects.first().description, 'Edit рассылка')
-        self.assertEqual(Mailing.objects.first().text, 'Тестовая рассылка2')
-
-    def test_delete_mailing(self):
-        url = reverse('mailing-detail', kwargs={'pk': 1})
-        self.client.login(**self.user)
-        Mailing(description=self.mailing['description'],
-                date_dispatch="2022-12-01T15:38:00+03:00",
-                date_stop="2022-12-01T15:38:00+03:00",
-                text='Тестовая рассылка', ).save()
-        response = self.client.delete(url, data={}, format='json')
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
