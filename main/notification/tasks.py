@@ -15,7 +15,7 @@ import requests
 
 @app.task(bind=True, base=AbortableTask)
 def send_create_message(self, mailing_id):
-    sleep(5)
+    print('i started')
     # import there because circular import
     from .views import Mailing
     mailing = Mailing.objects.get(id=mailing_id)

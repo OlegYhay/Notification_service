@@ -90,7 +90,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -133,8 +132,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CELERY_TIMEZONE = "Europe/Moscow"
 CELERY_TASK_TRACK_STARTED = True
 
-REDIS_HOST = 'redis'
+REDIS_HOST = '127.0.0.1'
 REDIS_PORT = '6379'
+BROKER_URL = 'redis://' + REDIS_HOST + ":" + REDIS_PORT + '/0'
 CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ":" + REDIS_PORT + '/0'
 CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ":" + REDIS_PORT + '/0'
 CELERY_ACCEPT_CONTENT = ['application/json']

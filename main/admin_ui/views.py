@@ -144,6 +144,7 @@ class CreateMailing(CreateView):
         рассылка стартует немедленно!
         """
         now = datetime.datetime.now(tz=pytz.timezone("Europe/Moscow"))
+        print(now)
         stop = self.object.date_stop
         start = self.object.date_dispatch
         if stop > now:

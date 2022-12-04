@@ -36,7 +36,7 @@
         <td>
             <a class="btn btn-warning" href="{% url 'mailings_update_admin' pk=mailing.pk %}">Редактировать</a>
             <a class="btn btn-danger" href="{% url 'mailings_delete_admin' pk=mailing.pk %}">Удалить</a>
-            <a class="btn btn-primary" href="#">Статистика</a>
+            <a class="btn btn-primary" href="{% url 'mailings_statistic' pk=mailing.pk %}">Статистика</a>
         </td>
     </tr>
     {% endfor %}
